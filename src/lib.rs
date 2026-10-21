@@ -8,3 +8,8 @@ pub use sweep::{Metrics, Snapshot, union_area, union_area_with_trace};
 
 /// Errors include invalid bounds and numeric overflow; input is never normalized silently.
 pub type Result<T> = std::result::Result<T, String>;
+
+mod generate;
+mod reference;
+pub use generate::{Pattern, generate};
+pub use reference::{VERIFICATION_LIMIT, reference_area};
