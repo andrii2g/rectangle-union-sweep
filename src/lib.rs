@@ -13,3 +13,6 @@ mod generate;
 mod reference;
 pub use generate::{Pattern, generate};
 pub use reference::{VERIFICATION_LIMIT, reference_area};
+
+mod svg;
+pub use svg::render_svg;

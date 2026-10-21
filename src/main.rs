@@ -10,6 +10,14 @@ struct Cli {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Render up to 24 sampled event groups (at most 200 rectangles).
+    Render {
+        input: PathBuf,
+        #[arg(long)]
+        output: PathBuf,
+        #[arg(long, default_value_t = 8)]
+        frames: usize,
+    },
     Area {
         input: PathBuf,
     },
@@ -32,6 +40,18 @@ fn read(input: PathBuf) -> Result<Dataset, Box<dyn std::error::Error>> {
 }
 fn run() -> Result<(), Box<dyn std::error::Error>> {
     match Cli::parse().command {
+        Command::Render {
+            input,
+            output,
+            frames,
+        } => {
+            let dataset = read(input)?;
+            fs::write(
+                &output,
+                rectangle_union_sweep::render_svg(&dataset.rectangles, frames)?,
+            )?;
+            println!("Wrote {}", output.display());
+        }
         Command::Area { input } => {
             println!(
                 "{}",

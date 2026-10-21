@@ -23,6 +23,7 @@ fn randomized_differential_and_invariants() {
                 });
             }
             let expected = reference_area(&rs).unwrap();
+            assert!(expected <= rs.iter().map(|r| r.area().unwrap()).sum::<u128>());
             assert_eq!(area(&rs), expected);
             rs.reverse();
             assert_eq!(area(&rs), expected);
